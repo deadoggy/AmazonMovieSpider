@@ -1,6 +1,4 @@
 import org.apache.http.HttpHost;
-import org.apache.http.HttpRequest;
-import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -26,7 +24,7 @@ public class RouterRestarter {
 
             String mainPage = EntityUtils.toString(client.execute(target,mainGet).getEntity());
         }catch(Exception e){
-
+            //ignore
         }
     }
 

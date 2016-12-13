@@ -25,8 +25,9 @@ import java.util.regex.Matcher;
 public class InfoRetriever {
 
 
-    public InfoRetriever(String fromFile){
+    public InfoRetriever(String id,String fromFile){
         this.fromFile = fromFile;
+        this.threadId = id;
     }
 
 
@@ -446,9 +447,10 @@ public class InfoRetriever {
     //amazon suckers
     private Movie SpiderDispatcher(String url){
         try{
-            System.out.print(url + "...");
+            System.out.print("[ " + this.threadId + " ]");
 
-            Movie ret = null;
+            Movie ret = new Movie();
+            boolean flagt = false;
 
             //new a client
             HttpClient client = HttpClients.custom()
@@ -476,11 +478,14 @@ public class InfoRetriever {
             //case one -- normal page
             ProDetails = doc.getElementById("detail-bullets");
             if(null != ProDetails){
+                flagt=true;
                 ret = this.retrieveMovieInfoTypeNormal(doc,ProDetails.getElementsByTag("li"), url);
+
             }
             //case two -- AmazonVideo
             ProDetails = doc.getElementById("dv-center-features");
             if(null != ProDetails){
+                flagt=true;
                 Element typeCheck = doc.getElementById("dv-sub-box");
                 ProDetails = ProDetails.getElementsByTag("tbody").first();
                 if(null == typeCheck){ // Movies
@@ -489,13 +494,14 @@ public class InfoRetriever {
                     ret = this.retrieveMovieInfoTVSerials(doc,ProDetails.getElementsByTag("tr"), url);
                 }
             }
-
+            if(ret.movieName == null || !flagt){
+                ret.movieName="error";
+            }
 
             return ret;
 
         }catch(Exception e){
             System.out.print("    error!");
-            e.printStackTrace();
             return null;
         }
     }
@@ -514,6 +520,7 @@ public class InfoRetriever {
             BufferedReader lineReader = new BufferedReader(new FileReader(movieUrl));
             String url = null;
             Boolean flag = true;
+            Integer maxTime = 15;
 
             url=lineReader.readLine();
 
@@ -564,6 +571,7 @@ public class InfoRetriever {
 
     private Integer count = 0;
     private String  fromFile;
+    private String threadId;
 
     private String[] agentList={"Mozilla/4.0 (compatible; MSIE 7.0; NT 5.1; GTB5; .NET CLR 2.0.50727; CIBA)",
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36",

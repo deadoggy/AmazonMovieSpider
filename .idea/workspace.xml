@@ -23,32 +23,29 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="InfoRetriever.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="InfoRetriever.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/InfoRetriever.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="641">
-              <caret line="515" column="32" lean-forward="true" selection-start-line="515" selection-start-column="32" selection-end-line="515" selection-end-column="32" />
+            <state relative-caret-position="-443">
+              <caret line="451" column="35" lean-forward="false" selection-start-line="451" selection-start-column="35" selection-end-line="451" selection-end-column="35" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="imports" expanded="true" />
-                <element signature="e#771#772#0" expanded="true" />
-                <element signature="e#811#812#0" expanded="true" />
                 <element signature="class#Movie#0;class#InfoRetriever#0" expanded="false" />
                 <element signature="class#Comment#0;class#InfoRetriever#0" expanded="false" />
                 <element signature="method#retrieveMovieInfoTypeNormal#0;class#InfoRetriever#0" expanded="false" />
                 <element signature="method#retrieveMovieInfoAmazonVideo#0;class#InfoRetriever#0" expanded="false" />
                 <element signature="method#retrieveMovieInfoTVSerials#0;class#InfoRetriever#0" expanded="false" />
-                <element signature="method#SpiderDispatcher#0;class#InfoRetriever#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RouterRestarter.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="RouterRestarter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/RouterRestarter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="26" column="95" lean-forward="false" selection-start-line="26" selection-start-column="95" selection-end-line="26" selection-end-column="95" />
+            <state relative-caret-position="493">
+              <caret line="26" column="20" lean-forward="false" selection-start-line="26" selection-start-column="20" selection-end-line="26" selection-end-column="20" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -62,10 +59,10 @@
             <state relative-caret-position="462">
               <caret line="21" column="0" lean-forward="true" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
               <folding>
-                <element signature="e#178#179#0" expanded="true" />
-                <element signature="e#242#243#0" expanded="true" />
-                <element signature="e#266#267#0" expanded="true" />
-                <element signature="e#317#318#0" expanded="true" />
+                <element signature="e#189#190#0" expanded="true" />
+                <element signature="e#256#257#0" expanded="true" />
+                <element signature="e#280#281#0" expanded="true" />
+                <element signature="e#331#332#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -108,8 +105,8 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/ProxyPool.java" />
         <option value="$PROJECT_DIR$/src/main/java/RouterRestarter.java" />
-        <option value="$PROJECT_DIR$/src/main/java/InfoRetriever.java" />
         <option value="$PROJECT_DIR$/src/main/java/MultiThreadController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/InfoRetriever.java" />
       </list>
     </option>
   </component>
@@ -723,12 +720,12 @@
       <workItem from="1481621117277" duration="1867000" />
       <workItem from="1481623024168" duration="13067000" />
       <workItem from="1481637867470" duration="1517000" />
-      <workItem from="1481642535817" duration="15395000" />
+      <workItem from="1481642535817" duration="18337000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="82659000" />
+    <option name="totallyTimeSpent" value="85601000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -745,7 +742,7 @@
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32930845" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3975085" sideWeight="0.5021436" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -761,7 +758,7 @@
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2423556" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3975085" sideWeight="0.49785638" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.329582" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295583" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25723472" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -783,6 +780,12 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints-defaults>
+        <breakpoint suspend="THREAD" type="java-exception" />
+      </breakpoints-defaults>
+      <breakpoints-dialog>
+        <breakpoints-dialog />
+      </breakpoints-dialog>
       <option name="time" value="117" />
     </breakpoint-manager>
     <watches-manager />
@@ -799,14 +802,11 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#771#772#0" expanded="true" />
-            <element signature="e#811#812#0" expanded="true" />
             <element signature="class#Movie#0;class#InfoRetriever#0" expanded="false" />
             <element signature="class#Comment#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTypeNormal#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoAmazonVideo#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTVSerials#0;class#InfoRetriever#0" expanded="false" />
-            <element signature="method#SpiderDispatcher#0;class#InfoRetriever#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -834,14 +834,11 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#771#772#0" expanded="true" />
-            <element signature="e#811#812#0" expanded="true" />
             <element signature="class#Movie#0;class#InfoRetriever#0" expanded="false" />
             <element signature="class#Comment#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTypeNormal#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoAmazonVideo#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTVSerials#0;class#InfoRetriever#0" expanded="false" />
-            <element signature="method#SpiderDispatcher#0;class#InfoRetriever#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -869,14 +866,11 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#771#772#0" expanded="true" />
-            <element signature="e#811#812#0" expanded="true" />
             <element signature="class#Movie#0;class#InfoRetriever#0" expanded="false" />
             <element signature="class#Comment#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTypeNormal#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoAmazonVideo#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTVSerials#0;class#InfoRetriever#0" expanded="false" />
-            <element signature="method#SpiderDispatcher#0;class#InfoRetriever#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -895,14 +889,11 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#771#772#0" expanded="true" />
-            <element signature="e#811#812#0" expanded="true" />
             <element signature="class#Movie#0;class#InfoRetriever#0" expanded="false" />
             <element signature="class#Comment#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTypeNormal#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoAmazonVideo#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTVSerials#0;class#InfoRetriever#0" expanded="false" />
-            <element signature="method#SpiderDispatcher#0;class#InfoRetriever#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -921,14 +912,11 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#771#772#0" expanded="true" />
-            <element signature="e#811#812#0" expanded="true" />
             <element signature="class#Movie#0;class#InfoRetriever#0" expanded="false" />
             <element signature="class#Comment#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTypeNormal#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoAmazonVideo#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTVSerials#0;class#InfoRetriever#0" expanded="false" />
-            <element signature="method#SpiderDispatcher#0;class#InfoRetriever#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -947,14 +935,11 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#771#772#0" expanded="true" />
-            <element signature="e#811#812#0" expanded="true" />
             <element signature="class#Movie#0;class#InfoRetriever#0" expanded="false" />
             <element signature="class#Comment#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTypeNormal#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoAmazonVideo#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTVSerials#0;class#InfoRetriever#0" expanded="false" />
-            <element signature="method#SpiderDispatcher#0;class#InfoRetriever#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -973,14 +958,11 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#771#772#0" expanded="true" />
-            <element signature="e#811#812#0" expanded="true" />
             <element signature="class#Movie#0;class#InfoRetriever#0" expanded="false" />
             <element signature="class#Comment#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTypeNormal#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoAmazonVideo#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTVSerials#0;class#InfoRetriever#0" expanded="false" />
-            <element signature="method#SpiderDispatcher#0;class#InfoRetriever#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1007,14 +989,11 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#771#772#0" expanded="true" />
-            <element signature="e#811#812#0" expanded="true" />
             <element signature="class#Movie#0;class#InfoRetriever#0" expanded="false" />
             <element signature="class#Comment#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTypeNormal#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoAmazonVideo#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTVSerials#0;class#InfoRetriever#0" expanded="false" />
-            <element signature="method#SpiderDispatcher#0;class#InfoRetriever#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1041,14 +1020,11 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#771#772#0" expanded="true" />
-            <element signature="e#811#812#0" expanded="true" />
             <element signature="class#Movie#0;class#InfoRetriever#0" expanded="false" />
             <element signature="class#Comment#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTypeNormal#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoAmazonVideo#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTVSerials#0;class#InfoRetriever#0" expanded="false" />
-            <element signature="method#SpiderDispatcher#0;class#InfoRetriever#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1068,14 +1044,11 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#771#772#0" expanded="true" />
-            <element signature="e#811#812#0" expanded="true" />
             <element signature="class#Movie#0;class#InfoRetriever#0" expanded="false" />
             <element signature="class#Comment#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTypeNormal#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoAmazonVideo#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTVSerials#0;class#InfoRetriever#0" expanded="false" />
-            <element signature="method#SpiderDispatcher#0;class#InfoRetriever#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1095,14 +1068,11 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#771#772#0" expanded="true" />
-            <element signature="e#811#812#0" expanded="true" />
             <element signature="class#Movie#0;class#InfoRetriever#0" expanded="false" />
             <element signature="class#Comment#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTypeNormal#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoAmazonVideo#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTVSerials#0;class#InfoRetriever#0" expanded="false" />
-            <element signature="method#SpiderDispatcher#0;class#InfoRetriever#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1122,14 +1092,11 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#771#772#0" expanded="true" />
-            <element signature="e#811#812#0" expanded="true" />
             <element signature="class#Movie#0;class#InfoRetriever#0" expanded="false" />
             <element signature="class#Comment#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTypeNormal#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoAmazonVideo#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTVSerials#0;class#InfoRetriever#0" expanded="false" />
-            <element signature="method#SpiderDispatcher#0;class#InfoRetriever#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1149,14 +1116,11 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#771#772#0" expanded="true" />
-            <element signature="e#811#812#0" expanded="true" />
             <element signature="class#Movie#0;class#InfoRetriever#0" expanded="false" />
             <element signature="class#Comment#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTypeNormal#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoAmazonVideo#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTVSerials#0;class#InfoRetriever#0" expanded="false" />
-            <element signature="method#SpiderDispatcher#0;class#InfoRetriever#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1176,14 +1140,11 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#771#772#0" expanded="true" />
-            <element signature="e#811#812#0" expanded="true" />
             <element signature="class#Movie#0;class#InfoRetriever#0" expanded="false" />
             <element signature="class#Comment#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTypeNormal#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoAmazonVideo#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTVSerials#0;class#InfoRetriever#0" expanded="false" />
-            <element signature="method#SpiderDispatcher#0;class#InfoRetriever#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1203,14 +1164,11 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#771#772#0" expanded="true" />
-            <element signature="e#811#812#0" expanded="true" />
             <element signature="class#Movie#0;class#InfoRetriever#0" expanded="false" />
             <element signature="class#Comment#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTypeNormal#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoAmazonVideo#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTVSerials#0;class#InfoRetriever#0" expanded="false" />
-            <element signature="method#SpiderDispatcher#0;class#InfoRetriever#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1230,14 +1188,11 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#771#772#0" expanded="true" />
-            <element signature="e#811#812#0" expanded="true" />
             <element signature="class#Movie#0;class#InfoRetriever#0" expanded="false" />
             <element signature="class#Comment#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTypeNormal#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoAmazonVideo#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTVSerials#0;class#InfoRetriever#0" expanded="false" />
-            <element signature="method#SpiderDispatcher#0;class#InfoRetriever#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1257,14 +1212,11 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#771#772#0" expanded="true" />
-            <element signature="e#811#812#0" expanded="true" />
             <element signature="class#Movie#0;class#InfoRetriever#0" expanded="false" />
             <element signature="class#Comment#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTypeNormal#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoAmazonVideo#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTVSerials#0;class#InfoRetriever#0" expanded="false" />
-            <element signature="method#SpiderDispatcher#0;class#InfoRetriever#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1284,14 +1236,11 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#771#772#0" expanded="true" />
-            <element signature="e#811#812#0" expanded="true" />
             <element signature="class#Movie#0;class#InfoRetriever#0" expanded="false" />
             <element signature="class#Comment#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTypeNormal#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoAmazonVideo#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTVSerials#0;class#InfoRetriever#0" expanded="false" />
-            <element signature="method#SpiderDispatcher#0;class#InfoRetriever#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1311,14 +1260,11 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#771#772#0" expanded="true" />
-            <element signature="e#811#812#0" expanded="true" />
             <element signature="class#Movie#0;class#InfoRetriever#0" expanded="false" />
             <element signature="class#Comment#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTypeNormal#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoAmazonVideo#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTVSerials#0;class#InfoRetriever#0" expanded="false" />
-            <element signature="method#SpiderDispatcher#0;class#InfoRetriever#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1338,14 +1284,11 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#771#772#0" expanded="true" />
-            <element signature="e#811#812#0" expanded="true" />
             <element signature="class#Movie#0;class#InfoRetriever#0" expanded="false" />
             <element signature="class#Comment#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTypeNormal#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoAmazonVideo#0;class#InfoRetriever#0" expanded="false" />
             <element signature="method#retrieveMovieInfoTVSerials#0;class#InfoRetriever#0" expanded="false" />
-            <element signature="method#SpiderDispatcher#0;class#InfoRetriever#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1388,21 +1331,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/InfoRetriever.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/RouterRestarter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="641">
-          <caret line="515" column="32" lean-forward="true" selection-start-line="515" selection-start-column="32" selection-end-line="515" selection-end-column="32" />
+        <state relative-caret-position="493">
+          <caret line="26" column="20" lean-forward="false" selection-start-line="26" selection-start-column="20" selection-end-line="26" selection-end-column="20" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="e#771#772#0" expanded="true" />
-            <element signature="e#811#812#0" expanded="true" />
-            <element signature="class#Movie#0;class#InfoRetriever#0" expanded="false" />
-            <element signature="class#Comment#0;class#InfoRetriever#0" expanded="false" />
-            <element signature="method#retrieveMovieInfoTypeNormal#0;class#InfoRetriever#0" expanded="false" />
-            <element signature="method#retrieveMovieInfoAmazonVideo#0;class#InfoRetriever#0" expanded="false" />
-            <element signature="method#retrieveMovieInfoTVSerials#0;class#InfoRetriever#0" expanded="false" />
-            <element signature="method#SpiderDispatcher#0;class#InfoRetriever#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1412,20 +1346,26 @@
         <state relative-caret-position="462">
           <caret line="21" column="0" lean-forward="true" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
           <folding>
-            <element signature="e#178#179#0" expanded="true" />
-            <element signature="e#242#243#0" expanded="true" />
-            <element signature="e#266#267#0" expanded="true" />
-            <element signature="e#317#318#0" expanded="true" />
+            <element signature="e#189#190#0" expanded="true" />
+            <element signature="e#256#257#0" expanded="true" />
+            <element signature="e#280#281#0" expanded="true" />
+            <element signature="e#331#332#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/RouterRestarter.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/InfoRetriever.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="26" column="95" lean-forward="false" selection-start-line="26" selection-start-column="95" selection-end-line="26" selection-end-column="95" />
+        <state relative-caret-position="-443">
+          <caret line="451" column="35" lean-forward="false" selection-start-line="451" selection-start-column="35" selection-end-line="451" selection-end-column="35" />
           <folding>
+            <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
+            <element signature="class#Movie#0;class#InfoRetriever#0" expanded="false" />
+            <element signature="class#Comment#0;class#InfoRetriever#0" expanded="false" />
+            <element signature="method#retrieveMovieInfoTypeNormal#0;class#InfoRetriever#0" expanded="false" />
+            <element signature="method#retrieveMovieInfoAmazonVideo#0;class#InfoRetriever#0" expanded="false" />
+            <element signature="method#retrieveMovieInfoTVSerials#0;class#InfoRetriever#0" expanded="false" />
           </folding>
         </state>
       </provider>
