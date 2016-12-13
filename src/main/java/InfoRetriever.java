@@ -315,7 +315,72 @@ public class InfoRetriever {
             }
             ret.movieASIN = asin;
 
-            //
+            //serial name
+            //id:dv-dp-title-content
+            Element titleName = doc.getElementById("dv-dp-title-content");
+            Element h = titleName.getElementsByTag("h1").first();
+            ret.movieName = h.text();
+
+            //price
+            //dv-sub-box
+            Element priceDiv = doc.getElementById("dv-sub-box");
+            String  priceText = priceDiv.getElementsByTag("p").text();
+            String  priceStr = priceText.substring(priceText.indexOf("$")+1, priceText.indexOf("/"));
+            ret.price = Double.valueOf(priceStr);
+
+            //averageComment
+            //id:reviewStars
+            Element starSpan = doc.getElementById("reviewStars").getElementsByTag("span").first();
+            String  starText = starSpan.text();
+            ret.averageComment = Float.valueOf(starText.substring( 0, starText.indexOf(" out") ));
+
+            //directors--no such info on web page
+            //TODO:null
+
+            //actors & format
+            //from the input para
+            for(Element e: ProDetails){
+                Element tr = e.getElementsByTag("tr").first();
+                Element th = tr.getElementsByTag("th").first();
+                Element td = tr.getElementsByTag("td").first();
+                String detailStr = th.text();
+
+                //actors
+                if(0 == detailStr.compareTo("Starring")){
+                    Elements aEles = td.getElementsByTag("a");
+                    for(Element ae:aEles){
+                        ret.actors.add(ae.text());
+                    }
+                }
+
+                //format
+                if(0 == detailStr.compareTo("Format")){
+                    String formatText = td.text();
+                    Integer pareIndex = formatText.indexOf("(");
+                    if(0 < pareIndex){
+                        ret.format = formatText.substring(0,pareIndex-1);
+                    }
+                    else{
+                        ret.format = formatText;
+                    }
+                }
+            }
+
+            //publish time -- get from the first episode
+            //rate  -- get from the first episode
+            //id:dv-el-id-1
+            Element timeDiv = doc.getElementById("dv-el-id-1").getElementsByClass("dv-el-synopsis-content").first();
+            Element timeSpan = timeDiv.getElementsByClass("dv-el-attr-value").last();
+            ret.publishTime = timeSpan.text();
+
+            Element  rateSpan = timeDiv.getElementsByClass("dv-el-badge").first();
+            ret.rate = rateSpan.text();
+
+            //edition -- no such info on web page
+            //TODO:null
+            //category -- no such info on web page
+            //TODO:null
+
             return ret;
         }catch(Exception e){
             return null;
@@ -324,10 +389,11 @@ public class InfoRetriever {
 
     //to handle different pages
     //amazon suckers
-    private void SpiderDispatcher(String url){
+    private Movie SpiderDispatcher(String url){
         try{
             System.out.println(url + "...");
 
+            Movie ret = null;
 
             //get html
             HttpClient client = new DefaultHttpClient();
@@ -340,23 +406,27 @@ public class InfoRetriever {
             //case one
             ProDetails = doc.getElementById("detail-bullets");
             if(null != ProDetails){
-                Movie ret = this.retrieveMovieInfoTypeNormal(doc,ProDetails.getElementsByTag("li"), url);
+                ret = this.retrieveMovieInfoTypeNormal(doc,ProDetails.getElementsByTag("li"), url);
                 System.out.println("a");
             }
             //case two
             ProDetails = doc.getElementById("dv-center-features");
             if(null != ProDetails){
+                Element typeCheck = doc.getElementById("dv-sub-box");
                 ProDetails = ProDetails.getElementsByTag("tbody").first();
-                Movie ret = this.retrieveMovieInfoAmazonVideo(doc,ProDetails.getElementsByTag("tr"), url);
+                if(null == typeCheck){
+                    ret = this.retrieveMovieInfoAmazonVideo(doc,ProDetails.getElementsByTag("tr"), url);
+                }else{
+                    ret = this.retrieveMovieInfoTVSerials(doc,ProDetails.getElementsByTag("tr"), url);
+                }
             }
+
+            return ret;
 
         }catch(Exception e){
             System.out.println(url + ": error!");
+            return null;
         }
-
-
-
-
     }
 
 
@@ -382,7 +452,7 @@ public class InfoRetriever {
 
     public static void main(String[] argv){
         InfoRetriever ir = new InfoRetriever();
-        ir.SpiderDispatcher("https://www.amazon.com/dp/B01KH23NVS");
+        ir.SpiderDispatcher("https://www.amazon.com/dp/B01MXDAMKE/");
     }
 
 }
