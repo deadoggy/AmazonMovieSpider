@@ -6,23 +6,16 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.http.HttpHost;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.conn.params.ConnRouteParams;
-import org.apache.http.impl.client.*;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.apache.http.client.config.RequestConfig;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -32,12 +25,8 @@ import java.util.regex.Matcher;
 public class InfoRetriever {
 
 
-    public InfoRetriever(){
-        this.currentIp = new String();
-        this.getNewIp();
-        String[] ipAndPort = this.currentIp.split(":");
-        this.proxy = new HttpHost(ipAndPort[0],Integer.valueOf(ipAndPort[1]));
-
+    public InfoRetriever(String fromFile){
+        this.fromFile = fromFile;
     }
 
 
@@ -115,14 +104,19 @@ public class InfoRetriever {
                 }
             }
 
-            //byline Element to get format
-            Element byline = doc.getElementById("byline");
-            //format
-            String  formatHtml = byline.html();
-            String  formatKey = "<span class=\"a-color-secondary\">Format: </span>";
-            Integer formatStartPt = formatHtml.indexOf(formatKey);
-            String  formatContentWithTag = formatHtml.substring(formatStartPt+formatKey.length(), formatHtml.length());
-            ret.format = formatContentWithTag.substring(formatContentWithTag.indexOf("<span>")+6, formatContentWithTag.indexOf("</span>"));
+            try{
+                //byline Element to get format
+                Element byline = doc.getElementById("byline");
+                //format
+                String  formatHtml = byline.html();
+                String  formatKey = "<span class=\"a-color-secondary\">Format: </span>";
+                Integer formatStartPt = formatHtml.indexOf(formatKey);
+                String  formatContentWithTag = formatHtml.substring(formatStartPt+formatKey.length(), formatHtml.length());
+                ret.format = formatContentWithTag.substring(formatContentWithTag.indexOf("<span>")+6, formatContentWithTag.indexOf("</span>"));
+            }catch(Exception formatE){
+                //ignore
+            }
+
 
             //tmmSwatches to get price
             Element tmm = doc.getElementById("tmmSwatches");
@@ -140,22 +134,23 @@ public class InfoRetriever {
 
 
 
-            //get category
-            Element categoryDiv = doc.getElementsByClass("content").last();
-            Elements categoryLi = categoryDiv.getElementsByTag("li");
-            for(Element e :categoryLi){
-                String cateText = e.getElementsByTag("a").last().text();
-                Integer middlePot = cateText.indexOf("&");
-                if(0 > middlePot){
-                    ret.category.add(cateText);
-                } else{
-                    ret.category.add(cateText.substring(0,middlePot-1));
-                    ret.category.add(cateText.substring(middlePot+2));
+            try{
+                //get category
+                Element categoryDiv = doc.getElementsByClass("content").last();
+                Elements categoryLi = categoryDiv.getElementsByTag("li");
+                for(Element e :categoryLi){
+                    String cateText = e.getElementsByTag("a").last().text();
+                    Integer middlePot = cateText.indexOf("&");
+                    if(0 > middlePot){
+                        ret.category.add(cateText);
+                    } else{
+                        ret.category.add(cateText.substring(0,middlePot-1));
+                        ret.category.add(cateText.substring(middlePot+2));
+                    }
                 }
+            }catch(Exception categoryE){
+                //ignore
             }
-
-
-
 
             /***********************************************************************/
 
@@ -177,44 +172,55 @@ public class InfoRetriever {
                     ret.publishTime = ret.publishTime.replace(',',' ');
                 }
 
-                //review point
-                //target string  title="4.4 out of 5 stars
-                matcher = review.matcher(html);
-                if(matcher.find()){
-                    //get title text
-                    Pattern reviewPattern = Pattern.compile("(\\d.\\d) out of 5 stars");
-                    Matcher reviewMatcher = reviewPattern.matcher(html);
-                    //get float point
-                    if(reviewMatcher.find()){
-                        String strAverageComment= reviewMatcher.group().substring(0,3);
-                        ret.averageComment = Float.valueOf(strAverageComment);
+
+                try{
+                    //review point
+                    //target string  title="4.4 out of 5 stars
+                    matcher = review.matcher(html);
+                    if(matcher.find()){
+                        //get title text
+                        Pattern reviewPattern = Pattern.compile("(\\d.\\d) out of 5 stars");
+                        Matcher reviewMatcher = reviewPattern.matcher(html);
+                        //get float point
+                        if(reviewMatcher.find()){
+                            String strAverageComment= reviewMatcher.group().substring(0,3);
+                            ret.averageComment = Float.valueOf(strAverageComment);
+                        }
                     }
-                }
 
-                //actors
-                matcher = actors.matcher(html);
-                if(matcher.find()){
-                    Elements actorsEles = e.getElementsByTag("a");
-                    for(Element ae: actorsEles){
-                        ret.actors.add(ae.text());
+                    //actors
+                    matcher = actors.matcher(html);
+                    if(matcher.find()){
+                        Elements actorsEles = e.getElementsByTag("a");
+                        for(Element ae: actorsEles){
+                            ret.actors.add(ae.text());
+                        }
                     }
+
+                    //directors
+                    matcher = director.matcher(html);
+                    if(matcher.find()){
+                        Elements directorsEles = e.getElementsByTag("a");
+                        for(Element ae: directorsEles){
+                            ret.directors.add(ae.text());
+                        }
+
+                    }
+                }catch(Exception bigE){
+                    //ignore
                 }
 
-                //directors
-                matcher = director.matcher(html);
-                if(matcher.find()){
-                   Elements directorsEles = e.getElementsByTag("a");
-                   for(Element ae: directorsEles){
-                       ret.directors.add(ae.text());
-                   }
-
-                }
 
                 //rated
-                matcher = rated.matcher(html);
-                if(matcher.find()){
-                    ret.rate = e.getElementsByClass("a-size-small").first().text();
+                try{
+                    matcher = rated.matcher(html);
+                    if(matcher.find()){
+                        ret.rate = e.getElementsByClass("a-size-small").first().text();
+                    }
+                }catch(Exception rateE){
+                    //ignore
                 }
+
 
             }
             return ret;
@@ -444,31 +450,14 @@ public class InfoRetriever {
 
             Movie ret = null;
 
-
-
-
-
-            //set proxy
-            HttpHost Lproxy = new HttpHost(this.currentIp.split(":")[0],Integer.valueOf(this.currentIp.split(":")[1]), null);
-
-            System.getProperties().setProperty("proxySet", "true");
-            //proxy server
-            System.getProperties().setProperty("http.proxyHost", this.currentIp.split(":")[0]);
-            //proxy port
-            System.getProperties().setProperty("http.proxyPort", this.currentIp.split(":")[1]);
-            System.out.print("  "+System.getProperty("http.proxyHost")+"  ");
-
             //new a client
             HttpClient client = HttpClients.custom()
-                    .setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36")
+                    .setUserAgent(this.agentList[this.count%4])
                     .build();
-
 
             //set get
             HttpGet request = new HttpGet(url);
 
-            //print proxy
-            System.out.print( "   "+this.currentIp + "   ");
 
             String  htmlContext = EntityUtils.toString(client.execute(request).getEntity());
 
@@ -519,13 +508,12 @@ public class InfoRetriever {
     //  3. change ip (two serves or restart router)
     public void mainController(){
         try{
-            Long count = 0l;
-            File movieUrl = new File("MovieUrl.txt");
+
+            File movieUrl = new File(this.fromFile);
             FileWriter movieOuput = null;
             BufferedReader lineReader = new BufferedReader(new FileReader(movieUrl));
             String url = null;
             Boolean flag = true;
-            Integer maxTime = 4;
 
             url=lineReader.readLine();
 
@@ -537,7 +525,7 @@ public class InfoRetriever {
                     System.out.print("          get  ");
                     System.out.print(count++);
                     System.out.print("\n");
-                    movieOuput = new FileWriter("MovieInfo.txt", true);
+                    movieOuput = new FileWriter("res_"+this.fromFile, true);
                     movieOuput.write(item.movieASIN + ","
                             + item.movieName + ","
                             + item.price.toString() + ","
@@ -551,7 +539,7 @@ public class InfoRetriever {
                     if(!flag){
                         flag=true;
                     }
-                }else if(item.movieASIN.compareTo("error")==0){
+                }else if(null != item && item.movieASIN.compareTo("error")==0){
                     System.out.print("    not found  ");
                     System.out.print(count++);
                     System.out.print("\n");
@@ -562,53 +550,25 @@ public class InfoRetriever {
                 else{
                     flag = false;
                     System.out.print("          abandon......retry\n");
-                    //set on url can arise bug how many times
-                    maxTime--;
-                    if(maxTime>0){
-                        this.getNewIp();
-                    }else{
-                        maxTime = 4;
-                        flag = true;
-                    }
-                    
+                    this.routerRestarter.restartRouter();
                 }
                 if(flag){
                     url=lineReader.readLine();
                 }
             }
-
         }catch(Exception e){
             e.printStackTrace();
         }
 
     }
 
-    private void getNewIp(){
-        if(0 == this.ipPool.size()){
-            ProxyPool refresh = new ProxyPool();
-            String[] newIpPoolStr = refresh.getProxy();
-            for(int i=1; i<newIpPoolStr.length;i++){
-                this.ipPool.add(newIpPoolStr[i]);
-            }
-            this.currentIp = newIpPoolStr[0];
-        }
-        else{
-            this.currentIp = this.ipPool.iterator().next();
-            this.ipPool.remove(0);
+    private Integer count = 0;
+    private String  fromFile;
 
-        }
-    }
-
-    private ArrayList<String> ipPool = new ArrayList<String>();
-    private String currentIp;
-    private HttpHost proxy;
-
-
-    public static void main(String[] argv){
-        InfoRetriever ir = new InfoRetriever();
-        //Movie ret = ir.SpiderDispatcher("https://www.amazon.com/dp/B002LSIAQU");
-        ir.mainController();
-        System.out.println("done!");
-    }
+    private String[] agentList={"Mozilla/4.0 (compatible; MSIE 7.0; NT 5.1; GTB5; .NET CLR 2.0.50727; CIBA)",
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36",
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393",
+            "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko"};
+    private RouterRestarter routerRestarter= new RouterRestarter();
 
 }
