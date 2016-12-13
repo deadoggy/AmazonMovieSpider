@@ -2,13 +2,21 @@
  * Created by deado on 2016/12/6.
  */
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.HttpHost;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.*;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.apache.http.client.config.RequestConfig;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -22,8 +30,15 @@ import java.util.regex.Matcher;
 //User Url: https://www.amazon.com/gp/cdp/member-reviews/A1RSDE90N6RSZF
 public class InfoRetriever {
 
-    static String UserOutputFile = "";
-    static String MovieOutPutFile = "";
+
+    public InfoRetriever(){
+        this.currentIp = new String();
+        this.getNewIp();
+        String[] ipAndPort = this.currentIp.split(":");
+        this.proxy = new HttpHost(ipAndPort[0],Integer.valueOf(ipAndPort[1]));
+
+    }
+
 
     public class Movie{
         public String         movieASIN;
@@ -43,6 +58,14 @@ public class InfoRetriever {
             this.actors    = new ArrayList<String>();
             this.comments  = new ArrayList<Comment>();
             this.category  = new ArrayList<String>();
+            movieName = " ";
+            movieName = " ";
+            price = 0.0;
+            averageComment = 0.0f;
+            publishTime = " ";
+            edition = " ";
+            format = " ";
+            rate = " ";
         }
     }
     public class Comment{
@@ -89,7 +112,6 @@ public class InfoRetriever {
                 }else{
                     ret.movieName = proTitle.substring(0,proTitle.length());
                 }
-                ret.edition = null;
             }
 
             //byline Element to get format
@@ -104,9 +126,17 @@ public class InfoRetriever {
             //tmmSwatches to get price
             Element tmm = doc.getElementById("tmmSwatches");
             //price
-            String Price = tmm.getElementsByTag("ul").first().getElementsByClass("selected").first().
-                    getElementsByClass("a-color-price").first().text();
-            ret.price = Double.valueOf(Price.substring(1));
+            try{
+                Elements PriceClass = tmm.getElementsByTag("ul").first().getElementsByClass("selected").first().
+                        getElementsByClass("a-color-price");
+                if(0 != PriceClass.size()){
+                    ret.price = Double.valueOf(PriceClass.first().text().substring(1));
+                }
+            }catch(Exception e){
+                //ignore
+            }
+
+
 
 
             //get category
@@ -143,6 +173,7 @@ public class InfoRetriever {
                 if(matcher.find()){
                     Integer startPt = html.indexOf("</b>");
                     ret.publishTime = html.substring(startPt+4, html.length());
+                    ret.publishTime = ret.publishTime.replace(',',' ');
                 }
 
                 //review point
@@ -209,7 +240,13 @@ public class InfoRetriever {
             Element titleDiv = doc.getElementById("dv-dp-title-content");
             ret.movieName = titleDiv.getElementsByTag("h1").first().text();
             //publish time
-            ret.publishTime = titleDiv.getElementsByTag("h2").first().text();
+            try{
+                ret.publishTime = titleDiv.getElementsByTag("h2").first().text();
+                ret.publishTime.replace(',',' ');
+            }catch(Exception e){
+
+            }
+
 
             //averageComment
             Element reviewStarI = doc.getElementById("reviewStars");
@@ -372,6 +409,7 @@ public class InfoRetriever {
             Element timeDiv = doc.getElementById("dv-el-id-1").getElementsByClass("dv-el-synopsis-content").first();
             Element timeSpan = timeDiv.getElementsByClass("dv-el-attr-value").last();
             ret.publishTime = timeSpan.text();
+            ret.publishTime.replace(',',' ');
 
             Element  rateSpan = timeDiv.getElementsByClass("dv-el-badge").first();
             ret.rate = rateSpan.text();
@@ -391,40 +429,58 @@ public class InfoRetriever {
     //amazon suckers
     private Movie SpiderDispatcher(String url){
         try{
-            System.out.println(url + "...");
+            System.out.print(url + "...");
 
             Movie ret = null;
 
             //get html
-            HttpClient client = new DefaultHttpClient();
-            HttpGet    getHttp = new HttpGet(url);
 
-            String  htmlContext = EntityUtils.toString(client.execute(getHttp).getEntity());
+
+            //set proxy
+            //System.getProperties().setProperty("proxySet", "true");
+            //proxy server
+            //System.getProperties().setProperty("http.proxyHost", this.currentIp.split(":")[0]);
+            //proxy port
+            //System.getProperties().setProperty("http.proxyPort", this.currentIp.split(":")[1]);
+            System.out.print("  "+System.getProperty("http.proxyHost")+"  ");
+
+            //new a client
+            HttpClient client = HttpClients.custom()
+                    .setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36")
+                    .build();
+            //set get
+            HttpGet request = new HttpGet(url);
+
+            //print proxy
+            System.out.print( "   "+this.currentIp + "   ");
+
+            String  htmlContext = EntityUtils.toString(client.execute(request).getEntity());
 
             Document doc = Jsoup.parse(htmlContext);
             Element  ProDetails ;
-            //case one
+            //case one -- normal page
             ProDetails = doc.getElementById("detail-bullets");
             if(null != ProDetails){
                 ret = this.retrieveMovieInfoTypeNormal(doc,ProDetails.getElementsByTag("li"), url);
-                System.out.println("a");
             }
-            //case two
+            //case two -- AmazonVideo
             ProDetails = doc.getElementById("dv-center-features");
             if(null != ProDetails){
                 Element typeCheck = doc.getElementById("dv-sub-box");
                 ProDetails = ProDetails.getElementsByTag("tbody").first();
-                if(null == typeCheck){
+                if(null == typeCheck){ // Movies
                     ret = this.retrieveMovieInfoAmazonVideo(doc,ProDetails.getElementsByTag("tr"), url);
-                }else{
+                }else{ // TV serials
                     ret = this.retrieveMovieInfoTVSerials(doc,ProDetails.getElementsByTag("tr"), url);
                 }
             }
 
+
             return ret;
 
         }catch(Exception e){
-            System.out.println(url + ": error!");
+            System.out.print("    error!");
+            e.printStackTrace();
             return null;
         }
     }
@@ -436,23 +492,80 @@ public class InfoRetriever {
     //  2. change frequency
     //  3. change ip (two serves or restart router)
     public void mainController(){
+        try{
+            Long count = 0l;
+            File movieUrl = new File("MovieUrl.txt");
+            FileWriter movieOuput = null;
+            BufferedReader lineReader = new BufferedReader(new FileReader(movieUrl));
+            String url = null;
+            Boolean flag = true;
+
+            url=lineReader.readLine();
+
+
+            while(null != url){
+                Movie item = this.SpiderDispatcher(url.substring(0,url.indexOf(32)));
+                //output to file
+                if(null != item){
+                    System.out.print("          get  ");
+                    System.out.print(count++);
+                    System.out.print("\n");
+                    movieOuput = new FileWriter("MovieInfo.txt", true);
+                    movieOuput.write(item.movieASIN + ","
+                            + item.movieName + ","
+                            + item.price.toString() + ","
+                            + item.averageComment.toString() + ","
+                            + item.publishTime + ","
+                            + item.rate + ","
+                            + item.edition + ","
+                            + item.format
+                            + "\r\n");
+                    movieOuput.close();
+                    flag = false;
+                } else{
+                    System.out.print("          abandon......retry\n");
+                    this.getNewIp();
+                    if(!flag){
+                        flag = true;
+                    }
+                }
+                if(!flag){
+                    url=lineReader.readLine();
+                }
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
 
     }
 
+    private void getNewIp(){
+        if(0 == this.ipPool.size()){
+            ProxyPool refresh = new ProxyPool();
+            String[] newIpPoolStr = refresh.getProxy();
+            for(int i=1; i<newIpPoolStr.length;i++){
+                this.ipPool.add(newIpPoolStr[i]);
+            }
+            this.currentIp = newIpPoolStr[0];
+        }
+        else{
+            this.currentIp = this.ipPool.iterator().next();
+            this.ipPool.remove(0);
 
+        }
+    }
 
-    //attribute pattern
-
-
-
-    //multiple client info
-
-
+    private ArrayList<String> ipPool = new ArrayList<String>();
+    private String currentIp;
+    private HttpHost proxy;
 
 
     public static void main(String[] argv){
         InfoRetriever ir = new InfoRetriever();
-        ir.SpiderDispatcher("https://www.amazon.com/dp/B01MXDAMKE/");
+        //Movie ret = ir.SpiderDispatcher("https://www.amazon.com/dp/B00006HAXW");
+        ir.mainController();
+        System.out.println("done!");
     }
 
 }
