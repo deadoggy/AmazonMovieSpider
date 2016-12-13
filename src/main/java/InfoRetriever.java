@@ -13,6 +13,7 @@ import java.util.List;
 import org.apache.http.HttpHost;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.params.ConnRouteParams;
 import org.apache.http.impl.client.*;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
@@ -360,10 +361,15 @@ public class InfoRetriever {
 
             //price
             //dv-sub-box
-            Element priceDiv = doc.getElementById("dv-sub-box");
-            String  priceText = priceDiv.getElementsByTag("p").text();
-            String  priceStr = priceText.substring(priceText.indexOf("$")+1, priceText.indexOf("/"));
-            ret.price = Double.valueOf(priceStr);
+            try{
+                Element priceDiv = doc.getElementById("dv-sub-box");
+                String  priceText = priceDiv.getElementsByTag("p").text();
+                String  priceStr = priceText.substring(priceText.indexOf("$")+1, priceText.indexOf("/"));
+                ret.price = Double.valueOf(priceStr);
+            }catch(Exception e){
+                //ignore
+            }
+
 
             //averageComment
             //id:reviewStars
@@ -406,13 +412,18 @@ public class InfoRetriever {
             //publish time -- get from the first episode
             //rate  -- get from the first episode
             //id:dv-el-id-1
-            Element timeDiv = doc.getElementById("dv-el-id-1").getElementsByClass("dv-el-synopsis-content").first();
-            Element timeSpan = timeDiv.getElementsByClass("dv-el-attr-value").last();
-            ret.publishTime = timeSpan.text();
-            ret.publishTime.replace(',',' ');
+            try{
+                Element timeDiv = doc.getElementById("dv-el-id-1").getElementsByClass("dv-el-synopsis-content").first();
+                Element timeSpan = timeDiv.getElementsByClass("dv-el-attr-value").last();
+                ret.publishTime = timeSpan.text();
+                ret.publishTime.replace(',',' ');
 
-            Element  rateSpan = timeDiv.getElementsByClass("dv-el-badge").first();
-            ret.rate = rateSpan.text();
+                Element  rateSpan = timeDiv.getElementsByClass("dv-el-badge").first();
+                ret.rate = rateSpan.text();
+            }catch(Exception e){
+                //ignore
+            }
+
 
             //edition -- no such info on web page
             //TODO:null
@@ -433,21 +444,26 @@ public class InfoRetriever {
 
             Movie ret = null;
 
-            //get html
+
+
 
 
             //set proxy
-            //System.getProperties().setProperty("proxySet", "true");
+            HttpHost Lproxy = new HttpHost(this.currentIp.split(":")[0],Integer.valueOf(this.currentIp.split(":")[1]), null);
+
+            System.getProperties().setProperty("proxySet", "true");
             //proxy server
-            //System.getProperties().setProperty("http.proxyHost", this.currentIp.split(":")[0]);
+            System.getProperties().setProperty("http.proxyHost", this.currentIp.split(":")[0]);
             //proxy port
-            //System.getProperties().setProperty("http.proxyPort", this.currentIp.split(":")[1]);
+            System.getProperties().setProperty("http.proxyPort", this.currentIp.split(":")[1]);
             System.out.print("  "+System.getProperty("http.proxyHost")+"  ");
 
             //new a client
             HttpClient client = HttpClients.custom()
                     .setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36")
                     .build();
+
+
             //set get
             HttpGet request = new HttpGet(url);
 
@@ -457,6 +473,16 @@ public class InfoRetriever {
             String  htmlContext = EntityUtils.toString(client.execute(request).getEntity());
 
             Document doc = Jsoup.parse(htmlContext);
+
+            ////check if the page is the error page
+            Element title = doc.getElementsByTag("title").first();
+            if(0 < title.text().indexOf("Page Not Found")){
+                ret = new Movie();
+                ret.movieASIN = "error";
+                return ret;
+            }
+
+
             Element  ProDetails ;
             //case one -- normal page
             ProDetails = doc.getElementById("detail-bullets");
@@ -499,6 +525,7 @@ public class InfoRetriever {
             BufferedReader lineReader = new BufferedReader(new FileReader(movieUrl));
             String url = null;
             Boolean flag = true;
+            Integer maxTime = 4;
 
             url=lineReader.readLine();
 
@@ -506,7 +533,7 @@ public class InfoRetriever {
             while(null != url){
                 Movie item = this.SpiderDispatcher(url.substring(0,url.indexOf(32)));
                 //output to file
-                if(null != item){
+                if(null != item && item.movieASIN.compareTo("error")!=0){
                     System.out.print("          get  ");
                     System.out.print(count++);
                     System.out.print("\n");
@@ -521,15 +548,31 @@ public class InfoRetriever {
                             + item.format
                             + "\r\n");
                     movieOuput.close();
-                    flag = false;
-                } else{
-                    System.out.print("          abandon......retry\n");
-                    this.getNewIp();
+                    if(!flag){
+                        flag=true;
+                    }
+                }else if(item.movieASIN.compareTo("error")==0){
+                    System.out.print("    not found  ");
+                    System.out.print(count++);
+                    System.out.print("\n");
                     if(!flag){
                         flag = true;
                     }
                 }
-                if(!flag){
+                else{
+                    flag = false;
+                    System.out.print("          abandon......retry\n");
+                    //set on url can arise bug how many times
+                    maxTime--;
+                    if(maxTime>0){
+                        this.getNewIp();
+                    }else{
+                        maxTime = 4;
+                        flag = true;
+                    }
+                    
+                }
+                if(flag){
                     url=lineReader.readLine();
                 }
             }
@@ -563,7 +606,7 @@ public class InfoRetriever {
 
     public static void main(String[] argv){
         InfoRetriever ir = new InfoRetriever();
-        //Movie ret = ir.SpiderDispatcher("https://www.amazon.com/dp/B00006HAXW");
+        //Movie ret = ir.SpiderDispatcher("https://www.amazon.com/dp/B002LSIAQU");
         ir.mainController();
         System.out.println("done!");
     }
