@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -257,12 +258,18 @@ public class InfoRetriever {
 
 
             //averageComment
-            Element reviewStarI = doc.getElementById("reviewStars");
-            Pattern reviewValuePattern = Pattern.compile("(\\d.\\d) out of 5 stars");
-            Matcher reviewMatcher = reviewValuePattern.matcher(reviewStarI.text());
-            if(reviewMatcher.find()){
-                ret.averageComment = Float.valueOf(reviewMatcher.group().substring(0,3));
+            try{
+                Element reviewStarI = doc.getElementById("reviewStars");
+                Pattern reviewValuePattern = Pattern.compile("(\\d.\\d) out of 5 stars");
+                Matcher reviewMatcher = reviewValuePattern.matcher(reviewStarI.text());
+                if(reviewMatcher.find()){
+                    ret.averageComment = Float.valueOf(reviewMatcher.group().substring(0,3));
+                }
+            }catch(Exception averageCommentE){
+                //ignore
             }
+
+
 
             //price
             Element priceDiv = doc.getElementById("dv-action-box").getElementsByClass("dv-purchase-options").first();
@@ -439,6 +446,7 @@ public class InfoRetriever {
 
             return ret;
         }catch(Exception e){
+            e.printStackTrace();
             return null;
         }
     }
@@ -447,10 +455,9 @@ public class InfoRetriever {
     //amazon suckers
     private Movie SpiderDispatcher(String url){
         try{
-            System.out.print("[ " + this.threadId + " ]");
 
-            Movie ret = new Movie();
-            boolean flagt = false;
+
+            Movie ret = null;
 
             //new a client
             HttpClient client = HttpClients.custom()
@@ -478,14 +485,12 @@ public class InfoRetriever {
             //case one -- normal page
             ProDetails = doc.getElementById("detail-bullets");
             if(null != ProDetails){
-                flagt=true;
                 ret = this.retrieveMovieInfoTypeNormal(doc,ProDetails.getElementsByTag("li"), url);
 
             }
             //case two -- AmazonVideo
             ProDetails = doc.getElementById("dv-center-features");
             if(null != ProDetails){
-                flagt=true;
                 Element typeCheck = doc.getElementById("dv-sub-box");
                 ProDetails = ProDetails.getElementsByTag("tbody").first();
                 if(null == typeCheck){ // Movies
@@ -494,14 +499,19 @@ public class InfoRetriever {
                     ret = this.retrieveMovieInfoTVSerials(doc,ProDetails.getElementsByTag("tr"), url);
                 }
             }
-            if(ret.movieName == null || !flagt){
+
+            if(ret!=null && ret.movieName == null){
                 ret.movieName="error";
+                return ret;
             }
+
+
 
             return ret;
 
         }catch(Exception e){
-            System.out.print("    error!");
+            System.out.print(url + "    error!\n");
+            e.printStackTrace();
             return null;
         }
     }
@@ -512,25 +522,37 @@ public class InfoRetriever {
     //  1. change browser info
     //  2. change frequency
     //  3. change ip (two serves or restart router)
-    public void mainController(){
+    public synchronized void mainController(){
         try{
 
             File movieUrl = new File(this.fromFile);
             FileWriter movieOuput = null;
+            FileWriter recordOutput = null;
             BufferedReader lineReader = new BufferedReader(new FileReader(movieUrl));
             String url = null;
             Boolean flag = true;
-            Integer maxTime = 15;
+            Integer maxTime = 5;
 
-            url=lineReader.readLine();
+            //read all url in memory
+            ArrayList<String> urlPool = new ArrayList<String>();
+            while(null != (url = lineReader.readLine())){
+                urlPool.add(url);
+            }
 
 
-            while(null != url){
+            //each url
+            Iterator<String> itr = urlPool.iterator();
+            while(itr.hasNext()){
+                if(flag){
+                    url=itr.next();
+                }
                 Movie item = this.SpiderDispatcher(url.substring(0,url.indexOf(32)));
                 //output to file
                 if(null != item && item.movieASIN.compareTo("error")!=0){
+                    count++;
+                    System.out.print("[ " + this.threadId + " ]");
                     System.out.print("          get  ");
-                    System.out.print(count++);
+                    System.out.print(count);
                     System.out.print("\n");
                     movieOuput = new FileWriter("res_"+this.fromFile, true);
                     movieOuput.write(item.movieASIN + ","
@@ -546,8 +568,13 @@ public class InfoRetriever {
                     if(!flag){
                         flag=true;
                     }
+                    //record
+                    recordOutput = new FileWriter("record_"+this.fromFile, false);
+                    recordOutput.write(url);
+                    recordOutput.close();
                 }else if(null != item && item.movieASIN.compareTo("error")==0){
-                    System.out.print("    not found  ");
+                    System.out.print("[ " + this.threadId + " ]");
+                    System.out.print(url + "    not found  ");
                     System.out.print(count++);
                     System.out.print("\n");
                     if(!flag){
@@ -556,12 +583,19 @@ public class InfoRetriever {
                 }
                 else{
                     flag = false;
-                    System.out.print("          abandon......retry\n");
-                    this.routerRestarter.restartRouter();
+                    maxTime--;
+                    if(maxTime>0){
+                        System.out.print("[ " + this.threadId + " ]");
+                        System.out.print(url + "    abandon......retry\n");
+                        routerRestarter.restartRouter();
+                    }
+                    else{
+                        maxTime = 5;
+                        flag = true;
+                    }
+
                 }
-                if(flag){
-                    url=lineReader.readLine();
-                }
+
             }
         }catch(Exception e){
             e.printStackTrace();
@@ -577,6 +611,13 @@ public class InfoRetriever {
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36",
             "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393",
             "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko"};
-    private RouterRestarter routerRestarter= new RouterRestarter();
+    static private  RouterRestarter routerRestarter= new RouterRestarter();
+
+
+    static public void main(String[] argv){
+        InfoRetriever ir = new InfoRetriever("1","MovieUrl_1.txt");
+        ir.mainController();
+        System.out.print("done");
+    }
 
 }
