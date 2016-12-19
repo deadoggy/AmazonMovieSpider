@@ -95,14 +95,14 @@ public class InfoRetriever {
             Integer pareBeg = proTitle.indexOf("(");
             Integer mPareBeg = proTitle.indexOf("[");
             if(pareBeg > 0){
-                ret.movieName = proTitle.substring(0,pareBeg);
-                ret.edition = proTitle.substring(pareBeg+1, proTitle.indexOf(")"));
+                ret.movieName = "\"" + proTitle.substring(0,pareBeg) + "\"" ;
+                ret.edition = "\""+ proTitle.substring(pareBeg+1, proTitle.indexOf(")")) + "\"";
             }
             else{
                 if(mPareBeg > 0){// without [ and ]
-                    ret.movieName = proTitle.substring(0,mPareBeg);
+                    ret.movieName = "\"" + proTitle.substring(0,mPareBeg) + "\"" ;
                 }else{
-                    ret.movieName = proTitle.substring(0,proTitle.length());
+                    ret.movieName = "\"" + proTitle.substring(0,proTitle.length()) + "\"";
                 }
             }
 
@@ -247,7 +247,7 @@ public class InfoRetriever {
 
             //movie name
             Element titleDiv = doc.getElementById("dv-dp-title-content");
-            ret.movieName = titleDiv.getElementsByTag("h1").first().text();
+            ret.movieName = "\"" + titleDiv.getElementsByTag("h1").first().text() + "\"";
             //publish time
             try{
                 ret.publishTime = titleDiv.getElementsByTag("h2").first().text();
